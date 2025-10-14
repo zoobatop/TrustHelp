@@ -3,14 +3,13 @@ package br.com.TrustHelp.Model;
 import lombok.Builder;
 
 @Builder
-public class User {
+public class Organizacao {
     private int id;
     private String nome;
+    private String cnpj;
     private String email;
-    private String senha;
+    private String telefone;
     private boolean isAtivo = true;
-    private int papelId;
-    private int organizacaoId;
 
     public int getId() {
         return id;
@@ -20,35 +19,31 @@ public class User {
         return nome;
     }
 
+    public String getCnpj() {
+        return cnpj;
+    }
+
     public String getEmail() {
         return email;
     }
 
-    public String getSenha() {
-        return senha;
+    public String getTelefone() {
+        return telefone;
     }
 
     public boolean isAtivo() {
         return isAtivo;
     }
 
-    public int getPapelId() {
-        return papelId;
-    }
-
-    public int getOrganizacaoId() {
-        return organizacaoId;
-    }
-
     @Override
     public String toString() {
-        return "Usuario{" +
+        return "Organizacao{" +
                 "id=" + id +
                 ", nome='" + nome + '\'' +
+                ", cnpj='" + cnpj + '\'' +
                 ", email='" + email + '\'' +
+                ", telefone='" + telefone + '\'' +
                 ", isAtivo=" + isAtivo +
-                ", papelId=" + papelId +
-                ", organizacaoId=" + organizacaoId +
                 '}';
     }
 }
