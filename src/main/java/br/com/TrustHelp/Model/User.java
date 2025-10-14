@@ -1,6 +1,6 @@
 package br.com.TrustHelp.Model;
 
-import lombok.builder;
+import lombok.Builder;
 
 @Builder
 

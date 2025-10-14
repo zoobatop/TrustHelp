@@ -1,5 +1,6 @@
 package br.com.TrustHelp.Model;
 import br.com.TrustHelp.Enum.TipoTelefone;
+import lombok.Builder;
 
 public class Telefone {
     private int id;
