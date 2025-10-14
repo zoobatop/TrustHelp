@@ -1,19 +1,16 @@
 package br.com.TrustHelp.Model;
 
-import br.com.TrustHelp.Enum.TipoPapel;
-
-public class Papel {
+public class Permissao {
     private int id;
     private String nome;
-    private TipoPapel tipoPapel;
     private String descricao;
 
-    public Papel() {}
+    public Permissao() {
+    }
 
-    public Papel(int id, String nome, TipoPapel tipoPapel, String descricao) {
+    public Permissao(int id, String nome, String descricao) {
         this.id = id;
         this.nome = nome;
-        this.tipoPapel = tipoPapel;
         this.descricao = descricao;
     }
 
@@ -28,16 +25,9 @@ public class Papel {
     public String getNome() {
         return nome;
     }
+
     public void setNome(String nome) {
         this.nome = nome;
-    }
-
-    public TipoPapel getTipoPapel() {
-        return tipoPapel;
-    }
-
-    public void setTipoPapel(TipoPapel tipoPapel) {
-        this.tipoPapel = tipoPapel;
     }
 
     public String getDescricao() {

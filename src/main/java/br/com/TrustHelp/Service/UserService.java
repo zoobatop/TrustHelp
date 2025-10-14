@@ -1,6 +1,5 @@
 package br.com.TrustHelp.Service;
 
-import br.com.TrustHelp.Model.User;
 import br.com.TrustHelp.Repository.UserRepository;
 
 public class UserService {
