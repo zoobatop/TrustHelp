@@ -1,11 +1,7 @@
 package br.com.TrustHelp.Model;
 
 import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
 
-@Getter
-@Setter
 @Builder
 public class Organizacao {
     private int id;
