@@ -4,17 +4,15 @@ import lombok.*;
 
 @Getter
 @Setter
-@ToString
-@NoArgsConstructor
 @AllArgsConstructor
+@NoArgsConstructor
+@ToString
 @Builder
 
-public class User {
+public class EmpresaAtendimento {
     private int id;
     private String nome;
+    private String cnpj;
     private String email;
-    private String senha;
-    private boolean isAtivo = true;
-    private int papelId;
-    private int organizacaoId;
+    private String telefone;
 }

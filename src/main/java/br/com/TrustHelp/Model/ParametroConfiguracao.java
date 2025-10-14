@@ -9,12 +9,11 @@ import lombok.*;
 @AllArgsConstructor
 @Builder
 
-public class User {
+public class ParametroConfiguracao {
     private int id;
-    private String nome;
-    private String email;
-    private String senha;
+    private String chave;
+    private String valor;
+    private String categoria;
+    private String descricao;
     private boolean isAtivo = true;
-    private int papelId;
-    private int organizacaoId;
 }
