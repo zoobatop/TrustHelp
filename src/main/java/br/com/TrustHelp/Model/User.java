@@ -1,8 +1,14 @@
 package br.com.TrustHelp.Model;
 
-import lombok.Builder;
+import lombok.*;
 
+@Getter
+@Setter
+@ToString
+@NoArgsConstructor
+@AllArgsConstructor
 @Builder
+
 public class User {
     private int id;
     private String nome;
@@ -11,44 +17,4 @@ public class User {
     private boolean isAtivo = true;
     private int papelId;
     private int organizacaoId;
-
-    public int getId() {
-        return id;
-    }
-
-    public String getNome() {
-        return nome;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public String getSenha() {
-        return senha;
-    }
-
-    public boolean isAtivo() {
-        return isAtivo;
-    }
-
-    public int getPapelId() {
-        return papelId;
-    }
-
-    public int getOrganizacaoId() {
-        return organizacaoId;
-    }
-
-    @Override
-    public String toString() {
-        return "Usuario{" +
-                "id=" + id +
-                ", nome='" + nome + '\'' +
-                ", email='" + email + '\'' +
-                ", isAtivo=" + isAtivo +
-                ", papelId=" + papelId +
-                ", organizacaoId=" + organizacaoId +
-                '}';
-    }
 }
