@@ -1,13 +1,24 @@
 package br.com.TrustHelp;
 
+import br.com.TrustHelp.Server;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class TrustHelpApplication {
+public class TrustHelpApplication implements CommandLineRunner {
 
-	public static void main(String[] args) {
+    @Autowired
+    private Server server;
+
+    public static void main(String[] args) {
         SpringApplication.run(TrustHelpApplication.class, args);
-	}
+    }
 
+    @Override
+    public void run(String... args) throws Exception {
+        System.out.println("Aplicação TrustHelp iniciada!");
+        server.initializeServices();
+    }
 }
