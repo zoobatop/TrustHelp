@@ -1,6 +1,6 @@
-package br.com.TrustHelp.Record.DTO;
+package br.com.TrustHelp.Record.Request;
 
-public record UserDTO(
+public record UserRequest(
         Long id,
         String nome,
         String email,
