@@ -10,9 +10,9 @@ import lombok.*;
 @Builder
 
 public class InteracaoChamado {
-    private int id;
-    private int chamadoId;
-    private int usuarioId;
+    private int idInteracao;
+    private Chamado idChamado;
+    private User id;
     private String mensagem;
     private String urlAnexo;
 }

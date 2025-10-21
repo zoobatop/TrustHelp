@@ -11,7 +11,7 @@ import lombok.*;
 @Builder
 
 public class Papel {
-    private int id;
+    private int idPapel;
     private TipoPapel tipoPapel;
-    private String descricao;
+    private String descricaoPapel;
 }

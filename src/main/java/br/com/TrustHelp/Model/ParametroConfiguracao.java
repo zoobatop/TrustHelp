@@ -10,7 +10,7 @@ import lombok.*;
 @Builder
 
 public class ParametroConfiguracao {
-    private int id;
+    private int idParametro;
     private String chave;
     private String valor;
     private String categoria;

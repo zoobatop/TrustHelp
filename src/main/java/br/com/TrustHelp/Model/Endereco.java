@@ -10,9 +10,9 @@ import lombok.*;
 @Builder
 
 public class Endereco {
-    private int id;
-    private int usuarioId;
-    private int organizacaoId;
+    private int idEndereco;
+    private User id;
+    private Organizacao organizacaoId;
     private String logradouro;
     private String numero;
     private String complemento;

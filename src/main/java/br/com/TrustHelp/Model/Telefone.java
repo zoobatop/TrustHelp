@@ -11,8 +11,8 @@ import lombok.*;
 @Builder
 
 public class Telefone {
-    private int id;
-    private int userId;
+    private int idTelefone;
+    private User id;
     private String ddd;
     private String numero;
     private TipoTelefone tipoTelefone;

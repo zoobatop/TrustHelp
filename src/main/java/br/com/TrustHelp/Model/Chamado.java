@@ -12,7 +12,7 @@ import lombok.*;
 @Builder
 
 public class Chamado {
-    private int id;
+    private int idChamado;
     private String titulo;
     private String descricao;
     private int organizacaoId;

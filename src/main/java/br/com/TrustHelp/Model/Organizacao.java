@@ -10,7 +10,7 @@ import lombok.*;
 @Builder
 
 public class Organizacao {
-    private int id;
+    private int organizacaoId;
     private String nome;
     private String cnpj;
     private String email;

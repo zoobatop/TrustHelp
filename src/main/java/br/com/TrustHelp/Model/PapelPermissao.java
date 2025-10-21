@@ -9,8 +9,7 @@ import lombok.*;
 @AllArgsConstructor
 @Builder
 
-public class Permissao {
-    private int idPermissao;
-    private String nome;
-    private String descricaoPermissao;
+public class PapelPermissao {
+    Papel idPapel;
+    Permissao idPermissao;
 }

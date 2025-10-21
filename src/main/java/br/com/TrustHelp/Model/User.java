@@ -10,11 +10,11 @@ import lombok.*;
 @Builder
 
 public class User {
-    private int id;
+    private int idUsuario;
     private String nome;
     private String email;
     private String senha;
     private boolean isAtivo = true;
-    private int papelId;
-    private int organizacaoId;
+    private Papel papelId;
+    private Organizacao organizacaoId;
 }
