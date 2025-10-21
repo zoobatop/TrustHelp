@@ -1,7 +1,7 @@
 package br.com.TrustHelp.Record.Request;
 
 public record ParametroConfiguracaoRequest(
-        int id,
+        int idParametro,
         String chave,
         String valor,
         String categoria,

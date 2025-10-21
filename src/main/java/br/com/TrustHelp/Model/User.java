@@ -15,6 +15,6 @@ public class User {
     private String email;
     private String senha;
     private boolean isAtivo = true;
-    private Papel papelId;
+    private Papel idPapel;
     private Organizacao organizacaoId;
 }

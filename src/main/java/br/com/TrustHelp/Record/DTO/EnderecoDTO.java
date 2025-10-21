@@ -1,9 +1,11 @@
 package br.com.TrustHelp.Record.DTO;
 
+import br.com.TrustHelp.Model.*;
+
 public record EnderecoDTO(
-    int id,
-    int usuarioId,
-    int organizacaoId,
+    int idEndereco,
+    User idUsuario,
+    Organizacao organizacaoId,
     String logadouro,
     String numero,
     String complemento,

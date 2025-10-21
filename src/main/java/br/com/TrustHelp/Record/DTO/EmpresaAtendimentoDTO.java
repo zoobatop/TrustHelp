@@ -1,7 +1,7 @@
 package br.com.TrustHelp.Record.DTO;
 
 public record EmpresaAtendimentoDTO(
-        int id,
+        int idEmpresa,
         String nome,
         String cnpj,
         String email,

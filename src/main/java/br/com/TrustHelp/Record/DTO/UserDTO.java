@@ -1,11 +1,14 @@
 package br.com.TrustHelp.Record.DTO;
 
+import br.com.TrustHelp.Model.Organizacao;
+import br.com.TrustHelp.Model.Papel;
+
 public record UserDTO(
-        Long id,
+        int idUsuario,
         String nome,
         String email,
         String senha,
         boolean isAtivo,
-        int papelId,
-        int organizacaoId
+        Papel idPapel,
+        Organizacao organizacaoId
 ) {}

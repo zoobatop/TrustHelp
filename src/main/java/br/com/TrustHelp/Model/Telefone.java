@@ -12,7 +12,7 @@ import lombok.*;
 
 public class Telefone {
     private int idTelefone;
-    private User id;
+    private User idUsuario;
     private String ddd;
     private String numero;
     private TipoTelefone tipoTelefone;

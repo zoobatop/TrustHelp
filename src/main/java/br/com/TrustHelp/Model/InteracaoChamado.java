@@ -12,7 +12,7 @@ import lombok.*;
 public class InteracaoChamado {
     private int idInteracao;
     private Chamado idChamado;
-    private User id;
+    private User idUsuario;
     private String mensagem;
     private String urlAnexo;
 }

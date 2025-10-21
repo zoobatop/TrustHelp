@@ -2,7 +2,7 @@ package br.com.TrustHelp.Record.DTO;
 
 
 public record PermissaoDTO(
-        int id,
+        int idPermissao,
         String nome,
-        String descricao
+        String descricaoPermissao
 ) {}

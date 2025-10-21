@@ -11,7 +11,7 @@ import lombok.*;
 
 public class Endereco {
     private int idEndereco;
-    private User id;
+    private User idUsuario;
     private Organizacao organizacaoId;
     private String logradouro;
     private String numero;

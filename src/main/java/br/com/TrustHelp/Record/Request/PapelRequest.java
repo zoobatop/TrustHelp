@@ -3,7 +3,7 @@ package br.com.TrustHelp.Record.Request;
 import br.com.TrustHelp.Enum.TipoPapel;
 
 public record PapelRequest(
-        int id,
+        int idPapel,
         TipoPapel tipoPapel,
         String descricao
 ) { }

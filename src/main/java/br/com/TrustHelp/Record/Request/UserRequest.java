@@ -1,11 +1,14 @@
 package br.com.TrustHelp.Record.Request;
 
+import br.com.TrustHelp.Model.Organizacao;
+import br.com.TrustHelp.Model.Papel;
+
 public record UserRequest(
-        Long id,
+        int idUsuario,
         String nome,
         String email,
         String senha,
         boolean isAtivo,
-        int papelId,
-        int organizacaoId
+        Papel idPapel,
+        Organizacao organizacaoId
 ) {}

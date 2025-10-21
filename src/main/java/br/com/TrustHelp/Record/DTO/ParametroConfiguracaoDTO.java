@@ -1,7 +1,7 @@
 package br.com.TrustHelp.Record.DTO;
 
 public record ParametroConfiguracaoDTO(
-        int id,
+        int idParametro,
         String chave,
         String valor,
         String categoria,

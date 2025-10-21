@@ -1,6 +1,8 @@
 package br.com.TrustHelp.Record.DTO;
 
-public record PapelPermissao(
+import br.com.TrustHelp.Model.PapelPermissao;
+
+public record PapelPermissaoDTO(
     PapelPermissao idPapel,
     PapelPermissao idPermissao
 ) { }

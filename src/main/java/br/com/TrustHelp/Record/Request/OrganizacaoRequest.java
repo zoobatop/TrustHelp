@@ -1,7 +1,7 @@
 package br.com.TrustHelp.Record.Request;
 
 public record OrganizacaoRequest(
-        int id,
+        int organizacaoId,
         String nome,
         String cnpj,
         String email,

@@ -15,7 +15,7 @@ public class Chamado {
     private int idChamado;
     private String titulo;
     private String descricao;
-    private int organizacaoId;
+    private Organizacao organizacaoId;
     private int usuarioAberturaId;
     private int usuarioAtribuidoId;
     private StatusChamado status;

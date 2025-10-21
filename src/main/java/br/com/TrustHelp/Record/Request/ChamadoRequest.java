@@ -1,10 +1,10 @@
-package br.com.TrustHelp.Record.DTO;
+package br.com.TrustHelp.Record.Request;
 
 import br.com.TrustHelp.Enum.PrioridadeChamado;
 import br.com.TrustHelp.Enum.StatusChamado;
 import br.com.TrustHelp.Model.Organizacao;
 
-public record ChamadoDTO(
+public record ChamadoRequest(
         int idChamado,
         String titulo,
         String descricao,
@@ -13,4 +13,5 @@ public record ChamadoDTO(
         int usuarioAtribuidoId,
         StatusChamado status,
         PrioridadeChamado prioridade
-        ) { }
+) {
+}
