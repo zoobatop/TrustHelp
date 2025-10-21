@@ -1,5 +1,6 @@
 package br.com.TrustHelp.Controller;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import java.util.HashMap;
 import java.util.Map;
@@ -36,6 +37,6 @@ public class BaseController {
         response.put("success", false);
         response.put("error", message);
         response.put("timestamp", System.currentTimeMillis());
-        return ResponseEntity.notFound().build();
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
     }
 }

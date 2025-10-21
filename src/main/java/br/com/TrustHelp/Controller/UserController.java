@@ -1,32 +1,27 @@
 package br.com.TrustHelp.Controller;
 
-import br.com.TrustHelp.Record.UserDTO;
-import br.com.TrustHelp.Record.UserRequest;
-import br.com.TrustHelp.Service.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
+import java.util.Map;
 
 @RestController
-@RequestMapping("/Users")
-@Validated
-public class UserController {
+@RequestMapping("/user")
+public class UserController extends BaseController {
 
-    private final UserService userService;
-    public UserController (UserService userService) {
-        this.userService = userService;
+    public UserController() {}
+
+    /*
+    * Teste de Api Users
+    */
+    @GetMapping("/ping")
+    public ResponseEntity<Map<String, Object>> ping() {
+        Map<String, Object> response = Map.of(
+                "status", HttpStatus.OK.value(),
+                "message", HttpStatus.OK.getReasonPhrase()
+        );
+        return success(response,"Ping user route");
     }
-    
-    @GetMapping
-    public ResponseEntity<List<UserDTO>> listarUsers() {
-        return ResponseEntity.ok(userService.listarTodos());
-    }
-    @PostMapping
-    public ResponseEntity<UserDTO> criarUser(@RequestBody @Validated UserRequest request) {
-        UserDTO user = userService.criar(request);
-        return ResponseEntity.status(HttpStatus.CREATED).body(user);
-    }
+
 }

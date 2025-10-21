@@ -5,15 +5,15 @@ import br.com.TrustHelp.Record.PermissaoRequest;
 import br.com.TrustHelp.Service.PermissaoService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
-@RequestMapping("/api/permissoes")
-@Validated
-public class PermissaoController {
+@RequestMapping("/permissao")
+public class PermissaoController extends BaseController {
     private final PermissaoService permissaoService;
 
     public PermissaoController(final PermissaoService permissaoService) {
@@ -21,8 +21,8 @@ public class PermissaoController {
     }
 
     @GetMapping
-    public ResponseEntity<List<PermissaoDTO>> listarTodos() {
-        return ResponseEntity.ok(permissaoService.listarTodos());
+    public ResponseEntity<Map<String, Object>> listarTodos() {
+        return success(permissaoService.listarTodos());
     }
 
     @GetMapping("/{id}")
@@ -33,23 +33,40 @@ public class PermissaoController {
     }
 
     @PostMapping
-    public ResponseEntity<PermissaoDTO> criar(@RequestBody @Validated PermissaoRequest request) {
+    public ResponseEntity<PermissaoDTO> criar(@RequestBody  PermissaoRequest request) {
         PermissaoDTO dto = permissaoService.criar(request);
         return ResponseEntity.status(HttpStatus.CREATED).body(dto);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<PermissaoDTO> atualizar(@PathVariable int id, @RequestBody @Validated PermissaoRequest request) {
+    public ResponseEntity<Map<String, Object>> atualizar(@PathVariable int id, @RequestBody PermissaoRequest request) {
         return permissaoService.atualizar(id, request)
-                .map(ResponseEntity::ok)
-                .orElse(ResponseEntity.notFound().build());
+                .map(permissao -> success(permissao, "Permissao atualizada"))
+                .orElse(notFound(""));
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deletar(@PathVariable int id) {
+    public ResponseEntity<Map<String, Object>> deletar(@PathVariable int id) {
         if (permissaoService.deletar(id)) {
-            return ResponseEntity.noContent().build();
+            Map<String, Object> response = new HashMap<>();
+            response.put("success", true);
+            response.put("message", "Permissão deletada com sucesso");
+            response.put("timestamp", System.currentTimeMillis());
+            return success(response, "Permissão deletado com sucesso");
         }
-        return ResponseEntity.notFound().build();
+        return notFound("Permissão não encontrado com ID: " + id);
     }
+
+    /*
+     * Teste de Api api/permissao/ping
+     */
+    @GetMapping("/ping")
+    public ResponseEntity<Map<String, Object>> ping() {
+        Map<String, Object> response = Map.of(
+                "status", HttpStatus.OK.value(),
+                "message", HttpStatus.OK.getReasonPhrase()
+        );
+        return success(response, "Ping permissao route");
+    }
+
 }
