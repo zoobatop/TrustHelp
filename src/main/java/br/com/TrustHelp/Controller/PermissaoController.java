@@ -8,7 +8,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -26,16 +25,16 @@ public class PermissaoController extends BaseController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<PermissaoDTO> buscarPorId(@PathVariable int id) {
+    public ResponseEntity<Map<String, Object>> buscarPorId(@PathVariable int id) {
         return permissaoService.buscarPorId(id)
-                .map(ResponseEntity::ok)
-                .orElse(ResponseEntity.notFound().build());
+                .map(permissao -> success(permissao, "Permissão encontrada com sucesso"))
+                .orElse(notFound("Permissão não econtrada"));
     }
 
     @PostMapping
-    public ResponseEntity<PermissaoDTO> criar(@RequestBody  PermissaoRequest request) {
+    public ResponseEntity<Map<String, Object>>  criar(@RequestBody  PermissaoRequest request) {
         PermissaoDTO dto = permissaoService.criar(request);
-        return ResponseEntity.status(HttpStatus.CREATED).body(dto);
+        return success(dto, "Permissao criada com sucesso");
     }
 
     @PutMapping("/{id}")
