@@ -1,6 +1,5 @@
 package br.com.TrustHelp;
 
-import br.com.TrustHelp.Server;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -12,12 +11,12 @@ public class TrustHelpApplication implements CommandLineRunner {
     @Autowired
     private Server server;
 
-    public static void main(String[] args) {
+    static void main(String[] args) {
         SpringApplication.run(TrustHelpApplication.class, args);
     }
 
     @Override
-    public void run(String... args) throws Exception {
+    public void run(String... args) {
         System.out.println("Aplicação TrustHelp iniciada!");
         server.initializeServices();
     }
