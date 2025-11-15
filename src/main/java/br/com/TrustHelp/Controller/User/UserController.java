@@ -6,11 +6,13 @@ import br.com.TrustHelp.Model.User.UsuarioInfo;
 import br.com.TrustHelp.Service.User.UserService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.beans.factory.annotation.Autowired;
 import java.util.List;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/user")
+@RequestMapping("/api")
+@CrossOrigin(origins = "*")
 public class UserController extends BaseController {
     private final UserService service;
 
