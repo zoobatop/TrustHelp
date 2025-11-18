@@ -3,18 +3,16 @@ package br.com.TrustHelp.Model.Chamado;
 import br.com.TrustHelp.Model.Organizacao.Organizacao;
 import br.com.TrustHelp.Model.User.Usuario;
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
 import java.time.Instant;
 
-@Getter
-@Setter
 @Entity
 @Table(name = "chamado")
+@Data
 public class Chamado {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

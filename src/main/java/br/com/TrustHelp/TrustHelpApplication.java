@@ -11,7 +11,7 @@ public class TrustHelpApplication implements CommandLineRunner {
     @Autowired
     private Server server;
 
-    static void main(String[] args) {
+    public static void main(String[] args) {
         SpringApplication.run(TrustHelpApplication.class, args);
     }
 

@@ -1,11 +1,9 @@
 package br.com.TrustHelp.Model.Permissao;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 
-@Getter
-@Setter
+@Data
 @Entity
 @Table(name = "permissao", uniqueConstraints = {
         @UniqueConstraint(name = "permissao_per_nome_key", columnNames = {"per_nome"})

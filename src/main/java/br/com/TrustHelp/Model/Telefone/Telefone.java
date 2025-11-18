@@ -2,16 +2,14 @@ package br.com.TrustHelp.Model.Telefone;
 
 import br.com.TrustHelp.Model.User.Usuario;
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
 import java.time.Instant;
 
-@Getter
-@Setter
+@Data
 @Entity
 @Table(name = "telefone", indexes = {
         @Index(name = "idx_telefone_principal", columnList = "id_usuario, tel_principal"),

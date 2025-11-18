@@ -3,14 +3,12 @@ package br.com.TrustHelp.Model.User;
 import br.com.TrustHelp.Model.Organizacao.Organizacao;
 import br.com.TrustHelp.Model.Papel.Papel;
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
-@Getter
-@Setter
+@Data
 @Entity
 @Table(name = "usuario", uniqueConstraints = {
         @UniqueConstraint(name = "usuario_usu_email_key", columnNames = {"usu_email"})

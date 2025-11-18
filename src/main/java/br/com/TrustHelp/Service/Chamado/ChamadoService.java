@@ -2,6 +2,7 @@ package br.com.TrustHelp.Service.Chamado;
 
 import br.com.TrustHelp.Model.Chamado.Chamado;
 import br.com.TrustHelp.Model.Chamado.ChamadoInfo;
+import br.com.TrustHelp.Model.User.Usuario;
 import br.com.TrustHelp.Repository.ChamadoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -45,18 +46,6 @@ public class ChamadoService {
             chamado.setChaDescricao(chamadoDetails.getChaDescricao());
             chamado.setIdOrganizacao(chamadoDetails.getIdOrganizacao());
             chamado.setIdUsuarioAbertura(chamadoDetails.getIdUsuarioAbertura());
-            chamado.setIdUsuarioAtribuido(chamadoDetails.getIdUsuarioAtribuido());
-            chamado.setChaStatus(chamadoDetails.getChaStatus());
-            chamado.setChaPrioridade(chamadoDetails.getChaPrioridade());
-
-            // Atualizar timestamp
-            chamado.setChaAtualizadoEm(Instant.now());
-
-            // Se status for finalizado, setar data de finalização
-            if ("finalizado".equalsIgnoreCase(chamadoDetails.getChaStatus()) &&
-                    chamado.getChaFinalizadoEm() == null) {
-                chamado.setChaFinalizadoEm(Instant.now());
-            }
 
             return chamadoRepository.save(chamado);
         }
@@ -77,10 +66,6 @@ public class ChamadoService {
 
         if (optionalChamado.isPresent()) {
             Chamado chamado = optionalChamado.get();
-
-            // Aqui você precisaria buscar o usuário pelo ID e setar
-            // Por enquanto, vamos apenas simular a lógica
-            // chamado.setIdUsuarioAtribuido(usuarioEncontrado);
 
             chamado.setChaAtualizadoEm(Instant.now());
             return chamadoRepository.save(chamado);
