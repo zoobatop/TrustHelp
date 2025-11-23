@@ -120,6 +120,17 @@ CREATE TABLE empresa_atendimento (
 );
 
 
+INSERT INTO papel (id_papel, pap_nome, pap_descricao) VALUES (1, 'Administrador','Administrador do Sistema');
+INSERT INTO papel (id_papel, pap_nome, pap_descricao) VALUES (2, 'Analista', 'Analista de Suporte');
+INSERT INTO papel (id_papel, pap_nome, pap_descricao) VALUES (3, 'Cliente', 'Cliente');
+
+INSERT INTO organizacao (id_organizacao, org_nome, org_cnpj, org_email, org_telefone, org_ativo)
+VALUES (1, 'TrustHelp', '00.000.000/0001-99', 'admin@thelp.com.br', '11999999999', true);
+
+ALTER TABLE organizacao ALTER COLUMN org_cnpj TYPE VARCHAR(20);
+
+
+
 -- 1. Criar o usuario com senha forte
 CREATE USER admin_thelp WITH PASSWORD 'S3nh4Sup3rS3gur@!2025';
 
