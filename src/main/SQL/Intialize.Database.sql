@@ -1,7 +1,7 @@
 CREATE TABLE organizacao (
                              id_organizacao SERIAL PRIMARY KEY,
                              org_nome VARCHAR(150) NOT NULL,
-                             org_cnpj VARCHAR(14) UNIQUE NOT NULL,
+                             org_cnpj VARCHAR(20) UNIQUE NOT NULL,
                              org_email VARCHAR(100) UNIQUE,
                              org_telefone V\ARCHAR(15),
                              org_ativo BOOLEAN DEFAULT TRUE
@@ -128,6 +128,7 @@ INSERT INTO organizacao (id_organizacao, org_nome, org_cnpj, org_email, org_tele
 VALUES (1, 'TrustHelp', '00.000.000/0001-99', 'admin@thelp.com.br', '11999999999', true);
 
 ALTER TABLE organizacao ALTER COLUMN org_cnpj TYPE VARCHAR(20);
+ALTER TABLE usuario ALTER COLUMN usu_senha TYPE VARCHAR(64);
 
 
 
