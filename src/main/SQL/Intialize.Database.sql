@@ -3,7 +3,7 @@ CREATE TABLE organizacao (
                              org_nome VARCHAR(150) NOT NULL,
                              org_cnpj VARCHAR(20) UNIQUE NOT NULL,
                              org_email VARCHAR(100) UNIQUE,
-                             org_telefone V\ARCHAR(15),
+                             org_telefone VARCHAR(15),
                              org_ativo BOOLEAN DEFAULT TRUE
 );
 
