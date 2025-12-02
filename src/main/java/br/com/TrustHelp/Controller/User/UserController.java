@@ -1,8 +1,8 @@
 package br.com.TrustHelp.Controller.User;
 
 import br.com.TrustHelp.Controller.BaseController;
-import br.com.TrustHelp.Model.User.Usuario;
 import br.com.TrustHelp.Model.User.UsuarioInfo;
+import br.com.TrustHelp.Model.User.Input.UsuarioInput;
 import br.com.TrustHelp.Service.User.UserService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -30,7 +30,7 @@ public class UserController extends BaseController {
     }
 
     @PostMapping
-    public ResponseEntity<Map<String, Object>> save(@RequestBody Usuario usuario) {
+    public ResponseEntity<Map<String, Object>> save(@RequestBody UsuarioInput usuario) {
         try {
             UsuarioInfo savedUsuario = service.save(usuario);
             return success(savedUsuario);

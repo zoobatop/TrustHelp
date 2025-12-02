@@ -1,6 +1,8 @@
 package br.com.TrustHelp.Controller.Papel;
 
 import br.com.TrustHelp.Model.Papel.Papel;
+import br.com.TrustHelp.Model.Papel.PapelInput;
+import br.com.TrustHelp.Model.Papel.PapelOutput;
 import br.com.TrustHelp.Service.Papel.PapelService;
 import br.com.TrustHelp.Controller.BaseController;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +23,7 @@ public class PapelController extends BaseController {
     @GetMapping
     public ResponseEntity<Map<String, Object>> getAllPapeis() {
         try {
-            List<Papel> papeis = papelService.findAll();
+            List<PapelOutput> papeis = papelService.findAll();
             if (papeis.isEmpty()) {
                 return success(papeis, "Nenhum papel encontrado");
             }
@@ -71,16 +73,16 @@ public class PapelController extends BaseController {
     }
 
     @PostMapping
-    public ResponseEntity<Map<String, Object>> createPapel(@RequestBody Papel papel) {
+    public ResponseEntity<Map<String, Object>> createPapel(@RequestBody PapelInput papel) {
         try {
             // Validações
-            if (papel.getPapNome() == null || papel.getPapNome().trim().isEmpty()) {
+            if (papel.getNome() == null || papel.getNome().trim().isEmpty()) {
                 return error("Nome do papel é obrigatório", "PAPEL_005");
             }
 
             // Verificar se já existe papel com mesmo nome
-            if (papelService.existsByNome(papel.getPapNome())) {
-                return conflict("Já existe um papel com o nome: " + papel.getPapNome());
+            if (papelService.existsByNome(papel.getNome())) {
+                return conflict("Já existe um papel com o nome: " + papel.getNome());
             }
 
             Papel novoPapel = papelService.save(papel);
@@ -103,8 +105,8 @@ public class PapelController extends BaseController {
             }
 
             Papel papel = papelService.createIfNotExists(nome, descricao);
-            String message = papelService.existsByNome(nome) ?
-                    "Papel já existente recuperado" : "Papel criado com sucesso";
+            String message = papelService.existsByNome(nome) ? "Papel já existente recuperado"
+                    : "Papel criado com sucesso";
 
             return success(papel, message);
 

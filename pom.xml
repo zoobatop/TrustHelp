@@ -27,6 +27,7 @@
         <url/>
     </scm>
     <properties>
+         <start-class>br.com.TrustHelp.TrustHelpApplication</start-class>
         <java.version>25</java.version>
     </properties>
     <dependencies>

@@ -2,6 +2,7 @@ package br.com.TrustHelp.Service.User;
 
 import br.com.TrustHelp.Model.User.Usuario;
 import br.com.TrustHelp.Model.User.UsuarioInfo;
+import br.com.TrustHelp.Model.User.Input.UsuarioInput;
 import br.com.TrustHelp.Repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,25 +17,31 @@ public class UserService {
     private UsuarioRepository usuarioRepository;
 
     // Salva um usuário e retorna o DTO (UsuarioInfo)
-    public UsuarioInfo save(Usuario usuario) {
-        // Validações antes de salvar
-        if (usuario.getEmail() == null || usuario.getEmail().trim().isEmpty()) {
+    public UsuarioInfo save(UsuarioInput usuarioInput) {
+        if (usuarioInput.getEmail() == null || usuarioInput.getEmail().trim().isEmpty()) {
             throw new IllegalArgumentException("Email é obrigatório");
         }
 
-        // Verifica se email já existe (para update, verifica se é outro usuário)
-        if (usuario.getId() == null) { // Novo usuário
-            Optional<Usuario> existing = usuarioRepository.findByEmail(usuario.getEmail());
-            if (existing.isPresent()) {
-                throw new IllegalArgumentException("Email já cadastrado");
-            }
+        Optional<Usuario> existing = usuarioRepository.findByEmail(usuarioInput.getEmail());
+        if (existing.isPresent()) {
+            throw new IllegalArgumentException("Email já cadastrado");
         }
 
-        // Salva no banco (método save já existe no JpaRepository)
-        Usuario savedUsuario = usuarioRepository.save(usuario);
+        // Converter UsuarioInput para Usuario
+        Usuario usuarioEntity = convertInputToEntity(usuarioInput);
 
-        // Converte para DTO e retorna
+        Usuario savedUsuario = usuarioRepository.save(usuarioEntity);
         return convertToUsuarioInfo(savedUsuario);
+    }
+
+    private Usuario convertInputToEntity(UsuarioInput input) {
+        Usuario usuario = new Usuario();
+        usuario.setNome(input.getNome());
+        usuario.setEmail(input.getEmail());
+        usuario.setPassword(input.getSenha());
+        usuario.setAtivo(input.getAtivo() != null ? input.getAtivo() : true); // Default true se não informado
+
+        return usuario;
     }
 
     // Salva e retorna a entidade completa (se precisar)
