@@ -1,6 +1,7 @@
 package br.com.TrustHelp.Controller.User;
 
 import br.com.TrustHelp.Controller.BaseController;
+import br.com.TrustHelp.Model.User.Usuario;
 import br.com.TrustHelp.Model.User.UsuarioInfo;
 import br.com.TrustHelp.Model.User.Input.UsuarioInput;
 import br.com.TrustHelp.Model.User.Mapper.UsuarioMapper;
@@ -31,8 +32,9 @@ public class UserController extends BaseController {
 
     @GetMapping("/{id}")
     public ResponseEntity<UsuarioInfo> findById(@PathVariable Integer id) {
-        UsuarioInfo usuario = service.findById(id);
-        return usuario != null ? ResponseEntity.ok(usuario) : ResponseEntity.notFound().build();
+        Usuario usuario = service.findById(id);
+        UsuarioInfo usuarioInfo = service.convertToUsuarioInfo(usuario);
+        return usuario != null ? ResponseEntity.ok(usuarioInfo) : ResponseEntity.notFound().build();
     }
 
     @PostMapping

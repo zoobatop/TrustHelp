@@ -9,6 +9,8 @@ import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
 import java.time.Instant;
+import java.util.HashMap;
+import java.util.Map;
 
 @Entity
 @Table(name = "chamado")
@@ -57,4 +59,39 @@ public class Chamado {
     @Column(name = "cha_finalizado_em")
     private Instant chaFinalizadoEm;
 
+    public Map<String, Object> toMap() {
+        Map<String, Object> map = new HashMap<>();
+        map.put("id", this.id);
+        map.put("chaTitulo", this.chaTitulo);
+        map.put("chaDescricao", this.chaDescricao);
+        map.put("chaStatus", this.chaStatus);
+        map.put("chaPrioridade", this.chaPrioridade);
+        map.put("chaCriadoEm", this.chaCriadoEm);
+        map.put("chaAtualizadoEm", this.chaAtualizadoEm);
+        
+        // Adiciona informações básicas das relações
+        if (this.idUsuarioAbertura != null) {
+            map.put("idUsuarioAbertura", this.idUsuarioAbertura.getId());
+            map.put("usuarioAberturaNome", this.idUsuarioAbertura.getNome());
+        }
+        
+        if (this.idUsuarioAtribuido != null) {
+            map.put("idUsuarioAtribuido", this.idUsuarioAtribuido.getId());
+            map.put("usuarioAtribuidoNome", this.idUsuarioAtribuido.getNome());
+        }
+        
+        if (this.idOrganizacao != null) {
+            map.put("idOrganizacao", this.idOrganizacao.getId());
+            map.put("organizacaoNome", this.idOrganizacao.getOrgNome());
+        }
+        
+        return map;
+    }
+    
+    // Método alternativo para DTO mais estruturado
+    public Map<String, Object> toResponseMap() {
+        Map<String, Object> response = new HashMap<>();
+        response.put("chamado", this.toMap());
+        return response;
+    }
 }

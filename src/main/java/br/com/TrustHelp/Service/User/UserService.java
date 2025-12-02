@@ -60,11 +60,6 @@ public class UserService {
                 .collect(Collectors.toList());
     }
 
-    public UsuarioInfo findById(int id) {
-        Optional<Usuario> usuario = usuarioRepository.findById(id);
-        return usuario.map(this::convertToUsuarioInfo).orElse(null);
-    }
-
     public UsuarioInfo findByEmail(String email) {
         Optional<Usuario> usuario = usuarioRepository.findByEmail(email);
         return usuario.map(this::convertToUsuarioInfo).orElse(null);
@@ -98,7 +93,7 @@ public class UserService {
         return convertToUsuarioInfo(updatedUsuario);
     }
 
-    private UsuarioInfo convertToUsuarioInfo(Usuario usuario) {
+    public UsuarioInfo convertToUsuarioInfo(Usuario usuario) {
         UsuarioInfo info = new UsuarioInfo();
         info.setId(usuario.getId());
         info.setNome(usuario.getNome());
@@ -108,6 +103,23 @@ public class UserService {
         info.setIdOrganizacao(usuario.getIdOrganizacao() != null ? usuario.getIdOrganizacao().getId() : null);
         // Adicione outros campos que quiser expor na API
         return info;
+    }
+
+    public Usuario findUsuarioEntityById(Integer idUsuario) {
+        if (idUsuario == null || idUsuario <= 0) {
+            throw new IllegalArgumentException("ID do usuário é inválido");
+        }
+
+        return usuarioRepository.findById(idUsuario)
+                .orElseThrow(() -> new EntityNotFoundException(
+                        "Usuário não encontrado com ID: " + idUsuario));
+    }
+
+    // Ou se já tiver um método findById, adapte-o:
+    public Usuario findById(Integer id) {
+        return usuarioRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException(
+                        "Usuário não encontrado com ID: " + id));
     }
 
     private Usuario convertInputToEntity(UsuarioInput input) {
@@ -145,7 +157,8 @@ public class UserService {
             orgEntity.setOrgAtivo(organizacao.getOrgAtivo());
             usuario.setIdOrganizacao(orgEntity); // Associa o objeto Organizacao completo
         }
-        // Se idOrganizacao for null, pode manter como null (depende da regra de negócio)
+        // Se idOrganizacao for null, pode manter como null (depende da regra de
+        // negócio)
 
         return usuario;
     }

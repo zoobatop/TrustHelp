@@ -7,7 +7,6 @@ import br.com.TrustHelp.Model.Auth.RegisterResponse;
 import br.com.TrustHelp.Model.Organizacao.Organizacao;
 import br.com.TrustHelp.Service.Auth.JWT.JwtTokenService;
 import br.com.TrustHelp.Service.Organizacao.OrganizacaoService;
-import br.com.TrustHelp.Service.Papel.PapelService;
 import br.com.TrustHelp.Model.User.Usuario;
 import br.com.TrustHelp.Model.User.UsuarioInfo;
 import br.com.TrustHelp.Repository.PapelRepository;
@@ -16,7 +15,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
 import java.util.Optional;
 
 @Service

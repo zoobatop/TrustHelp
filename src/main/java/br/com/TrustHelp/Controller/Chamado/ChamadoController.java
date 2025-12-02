@@ -1,6 +1,7 @@
 package br.com.TrustHelp.Controller.Chamado;
 
 import br.com.TrustHelp.Model.Chamado.Chamado;
+import br.com.TrustHelp.Model.Chamado.ChamadoInput;
 import br.com.TrustHelp.Service.Chamado.ChamadoService;
 import br.com.TrustHelp.Controller.BaseController;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,9 +11,10 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping("/api/chamados")
+@RequestMapping("/chamados")
 public class ChamadoController extends BaseController {
 
     @Autowired
@@ -22,10 +24,16 @@ public class ChamadoController extends BaseController {
     public ResponseEntity<Map<String, Object>> getAllChamados() {
         try {
             List<Chamado> chamados = chamadoService.findAll();
-            if (chamados.isEmpty()) {
-                return success(chamados, "Nenhum chamado encontrado");
+
+            // Converte cada Chamado para Map usando o método toMap()
+            List<Map<String, Object>> chamadosMapeados = chamados.stream()
+                    .map(Chamado::toMap) // Usa o método da entidade
+                    .collect(Collectors.toList());
+
+            if (chamadosMapeados.isEmpty()) {
+                return success(chamadosMapeados, "Nenhum chamado encontrado");
             }
-            return success(chamados, "Chamados recuperados com sucesso");
+            return success(chamadosMapeados, "Chamados recuperados com sucesso");
         } catch (Exception e) {
             return internalError("Erro ao buscar chamados: " + e.getMessage(), "CHAMADO_001");
         }
@@ -45,7 +53,7 @@ public class ChamadoController extends BaseController {
     }
 
     @PostMapping
-    public ResponseEntity<Map<String, Object>> createChamado(@RequestBody Chamado chamado) {
+    public ResponseEntity<Map<String, Object>> createChamado(@RequestBody ChamadoInput chamado) {
         try {
             // Validações básicas
             if (chamado.getChaTitulo() == null || chamado.getChaTitulo().trim().isEmpty()) {
@@ -61,7 +69,9 @@ public class ChamadoController extends BaseController {
                 return error("Usuário de abertura é obrigatório", "CHAMADO_006");
             }
 
-            Chamado novoChamado = chamadoService.save(chamado);
+            Chamado chamadoEntity = chamadoService.mapToEntity(chamado);
+
+            Chamado novoChamado = chamadoService.save(chamadoEntity);
             return created(novoChamado, "Chamado criado com sucesso");
 
         } catch (Exception e) {
@@ -70,7 +80,8 @@ public class ChamadoController extends BaseController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Map<String, Object>> updateChamado(@PathVariable Integer id, @RequestBody Chamado chamadoDetails) {
+    public ResponseEntity<Map<String, Object>> updateChamado(@PathVariable Integer id,
+            @RequestBody Chamado chamadoDetails) {
         try {
             // Validações básicas
             if (chamadoDetails.getChaTitulo() != null && chamadoDetails.getChaTitulo().trim().isEmpty()) {
@@ -102,7 +113,8 @@ public class ChamadoController extends BaseController {
     }
 
     @PatchMapping("/{id}/atribuir")
-    public ResponseEntity<Map<String, Object>> atribuirUsuario(@PathVariable Integer id, @RequestParam Integer idUsuario) {
+    public ResponseEntity<Map<String, Object>> atribuirUsuario(@PathVariable Integer id,
+            @RequestParam Integer idUsuario) {
         try {
             if (idUsuario == null) {
                 return error("ID do usuário é obrigatório", "CHAMADO_011");
@@ -129,7 +141,8 @@ public class ChamadoController extends BaseController {
             }
 
             // Validação de status permitidos
-            List<String> statusPermitidos = List.of("aberto", "em_andamento", "pendente", "resolvido", "fechado", "cancelado");
+            List<String> statusPermitidos = List.of("aberto", "em_andamento", "pendente", "resolvido", "fechado",
+                    "cancelado");
             if (!statusPermitidos.contains(status.toLowerCase())) {
                 return unprocessableEntity("Status inválido. Valores permitidos: " + statusPermitidos);
             }

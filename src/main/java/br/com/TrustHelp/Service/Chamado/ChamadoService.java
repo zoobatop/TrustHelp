@@ -1,13 +1,16 @@
 package br.com.TrustHelp.Service.Chamado;
 
 import br.com.TrustHelp.Model.Chamado.Chamado;
-import br.com.TrustHelp.Model.Chamado.ChamadoInfo;
+import br.com.TrustHelp.Model.Chamado.ChamadoInput;
 import br.com.TrustHelp.Model.User.Usuario;
 import br.com.TrustHelp.Repository.ChamadoRepository;
+import br.com.TrustHelp.Service.User.UserService;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -16,6 +19,8 @@ public class ChamadoService {
 
     @Autowired
     private ChamadoRepository chamadoRepository;
+    @Autowired
+    private UserService userService;
 
     public List<Chamado> findAll() {
         return chamadoRepository.findAll();
@@ -105,5 +110,42 @@ public class ChamadoService {
                 .filter(chamado -> chamado.getIdOrganizacao() != null &&
                         chamado.getIdOrganizacao().getId().equals(idOrganizacao))
                 .toList();
+    }
+
+    public Chamado mapToEntity(ChamadoInput chamado) {
+        Chamado entity = new Chamado();
+
+        // Mapeia os campos básicos
+        entity.setChaTitulo(chamado.getChaTitulo());
+        entity.setChaDescricao(chamado.getChaDescricao());
+        entity.setChaPrioridade(chamado.getChaPrioridade());
+
+        // Busca o usuário de abertura pelo ID
+        if (chamado.getIdUsuarioAbertura() != null && chamado.getIdUsuarioAbertura() > 0) {
+            Usuario usuarioAbertura = userService.findById(chamado.getIdUsuarioAbertura());
+            entity.setIdUsuarioAbertura(usuarioAbertura); // Usuario ao invés do id
+
+            // Define a organização do usuário como organização do chamado
+            if (usuarioAbertura.getIdOrganizacao() != null) {
+                entity.setIdOrganizacao(usuarioAbertura.getIdOrganizacao()); // Organizacao ao invés do id
+            } else {
+                throw new IllegalArgumentException("Usuário não possui organização associada");
+            }
+        } else {
+            throw new IllegalArgumentException("ID do usuário de abertura é obrigatório");
+        }
+
+        // Se tiver usuário atribuído, busca também
+        if (chamado.getIdOrganizacao() != null && chamado.getIdUsuarioAbertura() > 0) {
+            Usuario usuarioAtribuido = userService.findById(chamado.getIdUsuarioAbertura());
+            entity.setIdUsuarioAtribuido(usuarioAtribuido);
+        }
+
+        // Outros campos
+        if (chamado.getCategoria() != null) {
+            entity.setChaStatus(chamado.getCategoria());
+        }
+
+        return entity;
     }
 }
