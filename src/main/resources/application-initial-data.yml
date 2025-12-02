@@ -1,0 +1,93 @@
+initialization:
+  enabled: true
+  create-defaults: true
+
+  # Papéis padrão do sistema
+  roles:
+    - pap-nome: "ADMIN"
+      pap-descricao: "Administrador completo do sistema"
+      permissions:
+        - "ALL"
+      system-role: true
+      level: 1
+
+    - pap-nome: "GERENTE"
+      pap-descricao: "Gerente com acesso a gestão de equipes"
+      permissions:
+        - "USER_MANAGEMENT"
+        - "REPORT_VIEW"
+        - "TEAM_MANAGEMENT"
+      system-role: true
+      level: 2
+
+    - pap-nome: "COLABORADOR"
+      pap-descricao: "Colaborador com acesso básico"
+      permissions:
+        - "TASK_CREATE"
+        - "TASK_VIEW"
+        - "PROFILE_EDIT"
+      system-role: true
+      level: 3
+
+    - pap-nome: "CLIENTE"
+      pap-descricao: "Cliente do sistema"
+      permissions:
+        - "TICKET_CREATE"
+        - "TICKET_VIEW"
+        - "CONTRACT_VIEW"
+      system-role: true
+      level: 4
+
+    - pap-nome: "VISITANTE"
+      pap-descricao: "Acesso limitado para visitantes"
+      permissions:
+        - "PUBLIC_VIEW"
+      system-role: true
+      level: 5
+
+  # Organizações padrão
+  organizations:
+    - org-nome: "TrustHelp Sistemas"
+      org-email: "contato@trusthelp.com.br"
+      org-telefone: "11999999999"
+      org-cnpj: "12345678000199"  # Adicionado CNPJ
+      org-ativo: true
+      settings:
+        timezone: "America/Sao_Paulo"
+        language: "pt_BR"
+        currency: "BRL"
+
+    - org-nome: "TrustHelp Demo"
+      org-descricao: "Organização para demonstração do sistema"
+      org-dominio: "demo.trusthelp.com.br"
+      org-email: "demo@trusthelp.com.br"
+      org-cnpj: "98765432000188"  # Adicionado CNPJ
+      org-ativo: true
+      settings:
+        timezone: "America/Sao_Paulo"
+        language: "pt_BR"
+        currency: "BRL"
+
+  # Usuário administrador padrão
+  default-admin:
+    usu-nome: "Administrador TrustHelp"
+    usu-email: "admin@trusthelp.com"
+    usu-senha: "${DEFAULT_ADMIN_PASSWORD:Admin@123}" # Pode ser sobrescrito por variável de ambiente
+    usu-ativo: true
+    id-organizacao: 1  # ID da organização (TrustHelp Sistemas)
+    role: "ADMIN"  # Nome do papel (não ID)
+    organization: "TrustHelp Sistemas"  # Nome da organização para referência
+    force-password-change: true
+
+  # Configurações do sistema
+  system-settings:
+    app-name: "TrustHelp"
+    version: "1.0.0"
+    maintenance-mode: false
+    max-login-attempts: 5
+    session-timeout: 30
+    default-timezone: "America/Sao_Paulo"
+    supported-languages:
+      - "pt_BR"
+      - "en_US"
+      - "es_ES"

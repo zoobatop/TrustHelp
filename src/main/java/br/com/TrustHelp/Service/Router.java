@@ -1,7 +1,6 @@
 package br.com.TrustHelp.Service;
 
 import org.springframework.stereotype.Component;
-import org.springframework.web.servlet.mvc.method.RequestMappingInfo;
 import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping;
 
 import java.lang.reflect.Method;

@@ -3,6 +3,8 @@ package br.com.TrustHelp.Controller.User;
 import br.com.TrustHelp.Controller.BaseController;
 import br.com.TrustHelp.Model.User.UsuarioInfo;
 import br.com.TrustHelp.Model.User.Input.UsuarioInput;
+import br.com.TrustHelp.Model.User.Mapper.UsuarioMapper;
+import br.com.TrustHelp.Model.User.Output.UsuarioOutput;
 import br.com.TrustHelp.Service.User.UserService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -13,14 +15,18 @@ import java.util.Map;
 @RequestMapping("/user")
 public class UserController extends BaseController {
     private final UserService service;
+    private final UsuarioMapper usuarioMapper;
 
     public UserController(UserService service) {
         this.service = service;
+        this.usuarioMapper = new UsuarioMapper();
     }
-
-    @GetMapping
-    public List<UsuarioInfo> findAll() {
-        return service.findAll();
+    
+    // Método para buscar todos os usuários
+    @GetMapping()
+    public List<UsuarioOutput> findAll() {
+        List<UsuarioInfo> usuarios = service.findAll();
+        return usuarioMapper.toOutputList(usuarios);
     }
 
     @GetMapping("/{id}")

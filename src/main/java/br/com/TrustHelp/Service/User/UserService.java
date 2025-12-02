@@ -1,10 +1,18 @@
 package br.com.TrustHelp.Service.User;
 
+import br.com.TrustHelp.Model.Organizacao.Organizacao;
+import br.com.TrustHelp.Model.Organizacao.OrganizacaoInfo;
+import br.com.TrustHelp.Model.Papel.Papel;
 import br.com.TrustHelp.Model.User.Usuario;
 import br.com.TrustHelp.Model.User.UsuarioInfo;
 import br.com.TrustHelp.Model.User.Input.UsuarioInput;
+import br.com.TrustHelp.Repository.PapelRepository;
 import br.com.TrustHelp.Repository.UsuarioRepository;
+import br.com.TrustHelp.Service.Organizacao.OrganizacaoService;
+import jakarta.persistence.EntityNotFoundException;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
@@ -15,6 +23,11 @@ public class UserService {
 
     @Autowired
     private UsuarioRepository usuarioRepository;
+    @Autowired
+    private PapelRepository papelRepository;
+    @Autowired
+    private OrganizacaoService organizacaoRepository;
+    private BCryptPasswordEncoder passwordEncoder;
 
     // Salva um usuário e retorna o DTO (UsuarioInfo)
     public UsuarioInfo save(UsuarioInput usuarioInput) {
@@ -32,16 +45,6 @@ public class UserService {
 
         Usuario savedUsuario = usuarioRepository.save(usuarioEntity);
         return convertToUsuarioInfo(savedUsuario);
-    }
-
-    private Usuario convertInputToEntity(UsuarioInput input) {
-        Usuario usuario = new Usuario();
-        usuario.setNome(input.getNome());
-        usuario.setEmail(input.getEmail());
-        usuario.setPassword(input.getSenha());
-        usuario.setAtivo(input.getAtivo() != null ? input.getAtivo() : true); // Default true se não informado
-
-        return usuario;
     }
 
     // Salva e retorna a entidade completa (se precisar)
@@ -101,7 +104,49 @@ public class UserService {
         info.setNome(usuario.getNome());
         info.setEmail(usuario.getEmail());
         info.setAtivo(usuario.getAtivo());
+        info.setIdPapel(usuario.getIdPapel() != null ? usuario.getIdPapel().getId() : null);
+        info.setIdOrganizacao(usuario.getIdOrganizacao() != null ? usuario.getIdOrganizacao().getId() : null);
         // Adicione outros campos que quiser expor na API
         return info;
+    }
+
+    private Usuario convertInputToEntity(UsuarioInput input) {
+        Usuario usuario = new Usuario();
+        usuario.setNome(input.getNome());
+        usuario.setEmail(input.getEmail());
+
+        // Codifica a senha
+        if (input.getSenha() != null && !input.getSenha().trim().isEmpty()) {
+            this.passwordEncoder = new BCryptPasswordEncoder();
+            usuario.setPassword(passwordEncoder.encode(input.getSenha()));
+        }
+
+        usuario.setAtivo(input.getAtivo() != null ? input.getAtivo() : true); // Default true se não informado
+
+        // Busca o Papel pelo ID e associa a entidade completa
+        if (input.getIdPapel() != 0) {
+            Papel papel = this.papelRepository.findById(input.getIdPapel())
+                    .orElseThrow(
+                            () -> new EntityNotFoundException("Papel não encontrado com ID: " + input.getIdPapel()));
+            usuario.setIdPapel(papel); // Associa o objeto Papel completo
+        } else {
+            throw new IllegalArgumentException("ID do Papel é obrigatório");
+        }
+
+        // Busca a Organização pelo ID e associa a entidade completa
+        if (input.getIdOrganizacao() != 0) {
+            OrganizacaoInfo organizacao = this.organizacaoRepository.findById(input.getIdOrganizacao());
+            Organizacao orgEntity = new Organizacao();
+            orgEntity.setId(organizacao.getId());
+            orgEntity.setOrgNome(organizacao.getOrgNome());
+            orgEntity.setOrgCnpj(organizacao.getOrgCnpj());
+            orgEntity.setOrgEmail(organizacao.getOrgEmail());
+            orgEntity.setOrgTelefone(organizacao.getOrgTelefone());
+            orgEntity.setOrgAtivo(organizacao.getOrgAtivo());
+            usuario.setIdOrganizacao(orgEntity); // Associa o objeto Organizacao completo
+        }
+        // Se idOrganizacao for null, pode manter como null (depende da regra de negócio)
+
+        return usuario;
     }
 }

@@ -10,6 +10,8 @@ public class UsuarioInput {
     private String email;
     private String senha;
     private Boolean ativo;
+    private int idPapel;
+    private int idOrganizacao;
     
     // Construtores
     public UsuarioInput() {}

@@ -10,4 +10,5 @@ public interface OrganizacaoRepository extends JpaRepository<Organizacao, Intege
     Optional<Organizacao> findByOrgCnpj(String cnpj);
     Optional<Organizacao> findByOrgEmail(String email);
     Optional<Organizacao> findByOrgNome(String nome);
+    Optional<Organizacao> findById(Integer id);
 }

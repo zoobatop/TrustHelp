@@ -1,0 +1,54 @@
+spring:
+  application:
+    name: TrustHelp
+  profiles:
+    active: ${SPRING_PROFILES_ACTIVE:dev}
+  config:
+    import: 
+      - application-initial-data.yml
+  
+  # Database
+  datasource:
+    url: ${DB_URL:jdbc:postgresql://localhost:5432/trusthelp}
+    username: ${DB_USERNAME:postgres}
+    password: ${DB_PASSWORD:postgres}
+    driver-class-name: org.postgresql.Driver
+  
+  # JPA
+  jpa:
+    hibernate:
+      ddl-auto: ${DDL_AUTO:update}
+    show-sql: ${SHOW_SQL:false}
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        format_sql: true
+
+# Server
+server:
+  port: ${PORT:8080}
+  servlet:
+    context-path: /api
+  compression:
+    enabled: true
+
+# Logging
+logging:
+  level:
+    br.com.TrustHelp: ${LOG_LEVEL:INFO}
+    org.springframework.web: INFO
+    org.hibernate.SQL: ${HIBERNATE_SQL_LOG:false}
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"
+    file: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"
+  file:
+    name: logs/trusthelp-app.log
+
+# Custom Properties
+app:
+  name: TrustHelp
+  version: 1.0.0
+  security:
+    jwt:
+      secret: ${JWT_SECRET:your-super-secret-jwt-key-change-in-production}
+      expiration: ${JWT_EXPIRATION:86400000} # 24 horas

@@ -1,6 +1,7 @@
 package br.com.TrustHelp;
 
 import br.com.TrustHelp.Database.Database;
+import br.com.TrustHelp.Initializer.DataInitializer;
 import br.com.TrustHelp.Service.Router;
 import jakarta.annotation.PostConstruct;
 import lombok.Getter;
@@ -16,12 +17,17 @@ public class Server {
     private final Database database;
     private final Router router;
     private final ApplicationContext applicationContext;
+    private final DataInitializer dataInitializer;
 
     @Autowired
-    public Server(Database database, Router router, ApplicationContext applicationContext) {
+    public Server(Database database,
+            Router router,
+            ApplicationContext applicationContext,
+            DataInitializer dataInitializer) {
         this.database = database;
         this.router = router;
         this.applicationContext = applicationContext;
+        this.dataInitializer = dataInitializer;
     }
 
     @PostConstruct
@@ -29,6 +35,9 @@ public class Server {
         System.out.println("Inicializando serviços do servidor...");
 
         checkHealth();
+
+        // Inicialização de dados (adicionado)
+        initializeDefaultData();
 
         System.out.println("Servidor inicializado com sucesso!");
     }
@@ -51,6 +60,22 @@ public class Server {
             System.out.println("Database conectado com sucesso!");
         } else {
             System.out.println("Falha na conexão com o database!");
+        }
+    }
+
+    // Método adicionado para inicialização de dados
+    private void initializeDefaultData() {
+        System.out.println("Inicializando dados padrão do sistema...");
+
+        try {
+            // Executa a inicialização de dados
+            dataInitializer.initialize();
+            System.out.println("✅ Dados padrão inicializados com sucesso!");
+        } catch (Exception e) {
+            System.err.println("❌ Erro na inicialização de dados: " + e.getMessage());
+            // Não lançamos exceção para não impedir o servidor de subir
+            // Mas registramos o erro para debug
+            e.printStackTrace();
         }
     }
 
