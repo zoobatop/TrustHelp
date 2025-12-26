@@ -4,6 +4,7 @@ import br.com.TrustHelp.Model.User.Usuario;
 import br.com.TrustHelp.Model.User.UsuarioInfo;
 import br.com.TrustHelp.Repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
@@ -15,11 +16,18 @@ public class UserService {
     @Autowired
     private UsuarioRepository usuarioRepository;
 
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
     // Salva um usuário e retorna o DTO (UsuarioInfo)
     public UsuarioInfo save(Usuario usuario) {
         // Validações antes de salvar
         if (usuario.getEmail() == null || usuario.getEmail().trim().isEmpty()) {
             throw new IllegalArgumentException("Email é obrigatório");
+        }
+
+        if (usuario.getPassword() == null || usuario.getPassword().trim().isEmpty()) {
+            throw new IllegalArgumentException("Senha é obrigatória");
         }
 
         // Verifica se email já existe (para update, verifica se é outro usuário)
@@ -28,6 +36,8 @@ public class UserService {
             if (existing.isPresent()) {
                 throw new IllegalArgumentException("Email já cadastrado");
             }
+            // Criptografa a senha antes de salvar
+            usuario.setPassword(passwordEncoder.encode(usuario.getPassword()));
         }
 
         // Salva no banco (método save já existe no JpaRepository)
@@ -39,6 +49,10 @@ public class UserService {
 
     // Salva e retorna a entidade completa (se precisar)
     public Usuario saveUsuario(Usuario usuario) {
+        // Criptografa a senha antes de salvar
+        if (usuario.getPassword() != null && !usuario.getPassword().isEmpty()) {
+            usuario.setPassword(passwordEncoder.encode(usuario.getPassword()));
+        }
         return usuarioRepository.save(usuario);
     }
 
@@ -60,9 +74,24 @@ public class UserService {
         return usuario.map(this::convertToUsuarioInfo).orElse(null);
     }
 
+    // Método de login - Validar senha criptografada
+    public Optional<UsuarioInfo> login(String email, String senhaPlainText) {
+        Optional<Usuario> usuario = usuarioRepository.findByEmail(email);
+
+        if (usuario.isPresent()) {
+            // Verifica se a senha em texto plano corresponde à senha criptografada
+            if (passwordEncoder.matches(senhaPlainText, usuario.get().getPassword())) {
+                return Optional.of(convertToUsuarioInfo(usuario.get()));
+            }
+        }
+
+        return Optional.empty();
+    }
+
     public Optional<UsuarioInfo> findByEmailAndPassword(String email, String password) {
-        Optional<Usuario> usuario = usuarioRepository.findByEmailAndPassword(email, password);
-        return usuario.map(this::convertToUsuarioInfo);
+        // Este método não funciona mais com senhas criptografadas
+        // Use o método login() acima
+        throw new UnsupportedOperationException("Use o método login() para autenticação");
     }
 
     // Método para atualizar usuário
@@ -77,8 +106,9 @@ public class UserService {
         if (usuarioDetails.getEmail() != null) {
             usuario.setEmail(usuarioDetails.getEmail());
         }
-        if (usuarioDetails.getPassword() != null) {
-            usuario.setPassword(usuarioDetails.getPassword());
+        if (usuarioDetails.getPassword() != null && !usuarioDetails.getPassword().isEmpty()) {
+            // Criptografa a nova senha
+            usuario.setPassword(passwordEncoder.encode(usuarioDetails.getPassword()));
         }
         if (usuarioDetails.getAtivo() != null) {
             usuario.setAtivo(usuarioDetails.getAtivo());
@@ -95,6 +125,7 @@ public class UserService {
         info.setEmail(usuario.getEmail());
         info.setAtivo(usuario.getAtivo());
         // Adicione outros campos que quiser expor na API
+        // NÃO exponha a senha criptografada
         return info;
     }
 }

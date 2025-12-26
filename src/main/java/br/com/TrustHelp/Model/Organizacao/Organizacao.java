@@ -21,7 +21,7 @@ public class Organizacao {
     @Column(name = "org_nome", nullable = false, length = 150)
     private String orgNome;
 
-    @Column(name = "org_cnpj", nullable = false, length = 14)
+    @Column(name = "org_cnpj", nullable = false, length = 20)
     private String orgCnpj;
 
     @Column(name = "org_email", length = 100)
